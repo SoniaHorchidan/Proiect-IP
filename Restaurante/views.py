@@ -1,8 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import reverse
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
-from Restaurante.forms import LoginForm
+from Restaurante.forms import LoginForm, SignUpForm
+from Restaurante.models import UserProfile
 from django.shortcuts import render, redirect
+from django.contrib.auth.forms import UserCreationForm
+from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView, View
 
 
 def index(request):
@@ -31,3 +34,23 @@ def logout_view(request):
     if request.method == 'GET':
         logout(request)
         return redirect('login')
+
+class UserCreateView(CreateView):
+    template_name = "signup.html"
+    form_class = SignUpForm
+    model = UserProfile
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse('login')
+
+    def signup(request):
+        if request.method == 'POST':
+            form = UserCreateForm(request.POST)
+            if form.is_valid():
+                username = form.cleaned_data.get('username')
+                raw_password = form.cleaned_data.get('password')
+                user=authenticate(username=username,password=password)
+                return redirect('login')
+        else:
+            form = UserCreateForm()
+        return render(request, 'signup.html', {'form': form})

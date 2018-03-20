@@ -1,0 +1,38 @@
+{% extends 'layout.html' %} {% block title %}Sign Up{% endblock %} {% block content %}
+
+<h1>Sign Up</h1>
+
+{% if form.errors %}
+<div role="alert">
+    {{ form.errors }}
+</div>
+{% endif %}
+
+{{ error_message }}
+
+<form method="POST" enctype="multipart/formdata" class="form">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="id_username">Username</label>
+        <input id="id_username" type="text" name="username" value="{{ form.instance.username }}" maxlength="100" required class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="id_password">Password</label>
+        <input id="id_password" type="password" name="password" value="{{ form.instance.password }}" required class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="id_email">Email</label>
+        <input id="id_email" type="text" name="email" value="{{ form.instance.email }}" maxlength="100" required class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="id_first_name">First Name</label>
+        <input id="id_first_name" type="text" name="first_name" value="{{ form.instance.first_name }}" maxlength="200" required class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="id_last_name">Last Name</label>
+        <input id="id_last_name" type="text" name="last_name" value="{{ form.instance.last_name }}" maxlength="200" required class="form-control"/>
+    </div>
+    <button type="submit" class="btn btn-success">Sign Up</button>
+</form>
+</div>
+{% endblock %}
