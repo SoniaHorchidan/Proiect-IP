@@ -11,6 +11,9 @@ from django.views.generic import ListView, DetailView, DeleteView, CreateView, U
 def index(request):
     return render( request, 'index.html')
 
+def home(request):
+    return render( request, 'home.html')
+
 def login_view(request):
     context = {}
     if request.method == 'GET':
@@ -23,7 +26,7 @@ def login_view(request):
             if user:
                 login(request=request,
                       user=user)
-                return redirect('index')
+                return redirect('home')
             else:
                 context['error_message'] = 'Wrong username or password!'
     context['form'] = form
@@ -33,7 +36,7 @@ def login_view(request):
 def logout_view(request):
     if request.method == 'GET':
         logout(request)
-        return redirect('login')
+        return redirect('index')
 
 class UserProfileDetailView(DetailView):
     template_name = 'profile.html'
