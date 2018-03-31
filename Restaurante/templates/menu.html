@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="/static/css/menu.css">
 
-<nav class="navbar navbar-custom"">
+<nav class="navbar navbar-custom">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -22,7 +22,7 @@
             <a href="">Search restaurants</a>
         </li>
          <li>
-            <a href="">User profile</a>
+            <a href="{% url 'profile' pk=user.userprofile.pk %}">User Profile</a>
         </li>
 
         {% if not request.user.is_authenticated %}
@@ -39,7 +39,7 @@
         </li>
         {% endif %}
       </ul>
-    
+
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
