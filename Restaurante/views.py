@@ -9,10 +9,18 @@ from django.views.generic import ListView, DetailView, DeleteView, CreateView, U
 
 
 def index(request):
-    return render( request, 'index.html')
+    if is_authenticated(request.user) == True:
+        return render( request, 'home.html')
+    else:
+        return render( request, 'index.html')
 
 def home(request):
     return render( request, 'home.html')
+
+def is_authenticated(user):
+    if callable(user.is_authenticated):
+        return user.is_authenticated()
+    return user.is_authenticated
 
 def login_view(request):
     context = {}
