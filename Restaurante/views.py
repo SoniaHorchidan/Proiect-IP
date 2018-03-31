@@ -9,7 +9,7 @@ from django.views.generic import ListView, DetailView, DeleteView, CreateView, U
 
 
 def index(request):
-    return HttpResponse("Server is running:)")
+    return render( request, 'index.html')
 
 def login_view(request):
     context = {}

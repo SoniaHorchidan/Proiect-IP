@@ -1,0 +1,17 @@
+body { 
+	background: url(/static/images/entry_page.jpeg) no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	height: 100%;
+  	display: grid;
+}
+
+html {
+  height: 100%;
+  display: grid;
+}
+span {
+  margin: auto;
+}
