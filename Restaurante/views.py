@@ -35,6 +35,11 @@ def logout_view(request):
         logout(request)
         return redirect('login')
 
+class UserProfileDetailView(DetailView):
+    template_name = 'profile.html'
+    model = UserProfile
+    context_object_name = 'userprofile'
+
 
 class UserCreateView(CreateView):
     template_name = "signup.html"

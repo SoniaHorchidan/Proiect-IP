@@ -1,0 +1,47 @@
+body {
+	background: url(/static/images/background1.jpg) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	height: 100%;
+  	display: grid;
+}
+
+h1{
+	text-shadow: 2px 2px 4px #000000;
+  color: black;
+}
+
+h2, h3, p {
+  color: black;
+}
+
+h1 {
+  font-size: 2em;
+  padding-bottom: 1em;
+}
+
+h2 {
+  font-size: 1.75em;
+}
+
+h3 {
+  font-size: 1.25em;
+}
+
+p {
+  font-size: 1em;
+  padding-left: 2em;
+}
+
+.vertical-center {
+  min-height: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.centered{
+	text-align: center;
+}
