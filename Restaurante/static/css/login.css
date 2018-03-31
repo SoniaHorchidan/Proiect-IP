@@ -1,0 +1,31 @@
+body { 
+	background: url(/static/images/entry_page.jpeg) no-repeat center center fixed; 
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	height: 100%;
+  	display: grid;
+}
+
+.centered{
+	text-align: center;
+}
+
+
+h1, label{
+	color: white;
+}
+
+.vertical-center {
+  min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 100vh; /* These two lines are counted as one 🙂       */
+  display: flex;
+  align-items: center;
+}
+
+#loginForm .has-error .control-label,
+#loginForm .has-error .help-block,
+#loginForm .has-error .form-control-feedback {
+    color: #f39c12;
+}

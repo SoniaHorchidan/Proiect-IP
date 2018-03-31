@@ -35,6 +35,7 @@ def logout_view(request):
         logout(request)
         return redirect('login')
 
+
 class UserCreateView(CreateView):
     template_name = "signup.html"
     form_class = SignUpForm
