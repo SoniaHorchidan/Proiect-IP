@@ -1,0 +1,16 @@
+body {
+	background: url(/static/images/background1.jpg) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+	height: 100%;
+   display: grid;
+}
+
+#map {
+	height: 75%;
+	width: 50%;
+	position:absolute;
+	left: 45%;
+}
