@@ -71,3 +71,8 @@ class UserCreateView(CreateView):
         else:
             form = UserCreateForm()
         return render(request, 'signup.html', {'form': form})
+		
+def search_view(request):
+	context = {}
+	return render(request, 'search.html', context)
+	

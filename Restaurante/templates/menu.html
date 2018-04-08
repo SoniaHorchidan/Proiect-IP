@@ -19,7 +19,7 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav pull-right">
         <li>
-            <a href="">Search restaurants</a>
+            <a href="{% url 'search' %}">Search restaurants</a>
         </li>
          <li>
             <a href="{% url 'profile' pk=user.userprofile.pk %}">User Profile</a>
