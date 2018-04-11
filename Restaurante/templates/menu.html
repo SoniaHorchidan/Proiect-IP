@@ -22,7 +22,7 @@
             <a href="{% url 'search' %}">Search restaurants</a>
         </li>
          <li>
-            <a href="{% url 'profile' pk=user.userprofile.pk %}">User Profile</a>
+            <a href="{% url 'profile' pk=user.profile.pk %}">User Profile</a>
         </li>
 
         {% if not request.user.is_authenticated %}

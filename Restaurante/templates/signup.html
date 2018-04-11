@@ -1,52 +1,18 @@
-{% extends 'layout_no_menu.html' %} {% block title %}Sign Up{% endblock %} {% block content %}
-<link rel="stylesheet" href="/static/css/signup.css">
-
-<div class="vertical-center" >
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-       <div style="width:90%; margin: 0 auto; background-color: rgba(169,169,169, 0.5); padding: 50px;  border-radius: 25px;  box-shadow: 2px 2px 2px grey; ">
-        <div class="centered">
-            <h1>Sign Up</h1>
-        </div>
-
-{% if form.errors %}
-<div role="alert">
-    {{ form.errors }}
-</div>
-{% endif %}
-
-{{ error_message }}
-
-<form method="POST" enctype="multipart/formdata" class="form">
+{% extends 'layout_no_menu.html' %} 
+{% block title %}Sign Up{% endblock %} 
+{% block content %}
+ <h2>Sign up</h2>
+  <form method="post">
     {% csrf_token %}
-    <div class="form-group">
-        <label for="id_username">Username</label>
-        <input id="id_username" type="text" name="username" value="{{ form.instance.username }}" maxlength="100" required class="form-control"/>
-    </div>
-    <div class="form-group">
-        <label for="id_password">Password</label>
-        <input id="id_password" type="password" name="password" value="{{ form.instance.password }}" required class="form-control"/>
-    </div>
-    <div class="form-group">
-        <label for="id_email">Email</label>
-        <input id="id_email" type="text" name="email" value="{{ form.instance.email }}" maxlength="100" required class="form-control"/>
-    </div>
-    <div class="form-group">
-        <label for="id_first_name">First Name</label>
-        <input id="id_first_name" type="text" name="first_name" value="{{ form.instance.first_name }}" maxlength="200" required class="form-control"/>
-    </div>
-    <div class="form-group">
-        <label for="id_last_name">Last Name</label>
-        <input id="id_last_name" type="text" name="last_name" value="{{ form.instance.last_name }}" maxlength="200" required class="form-control"/>
-    </div>
-    <div style="width: 100%; text-align: center;">
-     <button type="submit" class="btn btn-default" style="min-width: 60%; margin: 10px;">Register!</button>
- </div>
-</form>
-</div>
-</div>
-</div>
-</div>
-</div>
+    {% for field in form %}
+      <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+    <button type="submit">Sign up</button>
+  </form>
 {% endblock %}
