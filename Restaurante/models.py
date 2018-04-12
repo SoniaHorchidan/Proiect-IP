@@ -19,7 +19,6 @@ class Restaurant(models.Model):
     name = models.CharField(max_length = 100)
     location = models.CharField(max_length = 100)
     website = models.CharField(max_length = 100)
-    specific = models.CharField(max_length = 100)
     rating = models.FloatField(default=0.0)
     keywords = models.ManyToManyField(Keyword, related_name='Keywords')
 
@@ -29,12 +28,6 @@ class Restaurant(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     birth_date = models.DateField(null=True, blank=True)
-    food_choices = (
-        ('a', 'Hola'),
-        ('b', 'Hello'),
-        ('c', 'Bonjour'),
-        ('d', 'Boas'),
-    )
     #favourites = models.ManyToManyField(Restaurant, related_name='Favourites')
     preferences = models.ManyToManyField(Keyword, related_name='Preferences')
     def __str__(self):
