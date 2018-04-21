@@ -2,6 +2,7 @@ import numpy as np
 from lightfm import LightFM
 from scipy import sparse
 import pickle
+import os
 
 class RestaurantRecommender:
 	def __init__(self):
@@ -23,11 +24,25 @@ class RestaurantRecommender:
 							item_features=items_features, epochs=40)
 
 	def save_model(self):
-		with open('model/model.pickle', 'wb') as file:
+		folder = 'model/'
+		file_name = 'model.pickle'
+		path = os.path.realpath(__file__)
+		path = path.split('/')
+		path.pop()
+		path = '/'.join(path)
+		full_file_name = os.path.join(path, folder, file_name)
+		with open(full_file_name, 'wb') as file:
 			pickle.dump(self.model, file, protocol=pickle.HIGHEST_PROTOCOL)
 
 	def load_model(self):
-		with open('model/model.pickle', 'rb') as file:
+		folder = 'model/'
+		file_name = 'model.pickle'
+		path = os.path.realpath(__file__)
+		path = path.split('/')
+		path.pop()
+		path = '/'.join(path)
+		full_file_name = os.path.join(path, folder, file_name)
+		with open(full_file_name, 'rb') as file:
 			self.model = pickle.load(file)
 
 
@@ -47,6 +62,7 @@ class RestaurantRecommender:
 
 
 	def __select_restaurants_around(self, restaurants_around, ml_restaurants, number_to_return):
+		ml_restaurants = [el + 1 for el in ml_restaurants]
 		to_return = [el for el in ml_restaurants if el in restaurants_around]
 		return to_return[:number_to_return]
 
@@ -112,6 +128,7 @@ class RestaurantRecommender:
 
 # recommender = RestaurantRecommender()
 # recommender.train(mock_users_features, mock_items_features)
+# recommender.save_model()
 # predicted_array = recommender.predict(mock_single_user_features1, mock_items_features,
 # 									restaurants_around)
 # print(predicted_array)

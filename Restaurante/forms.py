@@ -31,3 +31,5 @@ class SignUpForm(UserCreationForm):
         user.profile.preferences.set(datas['preferences'])
         user.save()
         return user
+
+

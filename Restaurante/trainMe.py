@@ -10,13 +10,6 @@ django.setup()
 # merge magia
 from Restaurante.models import Restaurant
 import requests
-# import os
-# import sys
-# sys.path.append('/path/to/the/directory/above/your/project')
-# os.environ['DJANGO_SETTINGS_MODULE'] = 'yourproject.settings'
-# from  yourproject.yourapp.models import YourModel
-
-
 
 
 # AIzaSyA3vy2oO5XSTevGLcfja_R9EPcDzV89UdE
@@ -29,9 +22,11 @@ def add_restaurant(restaurant):
 def get_restaurants_in_Bucharest():
 	latitude = 0
 	longitude = 0
-	url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=44.439663,26.096306&radius=10000&type=restaurant&key=AIzaSyA3vy2oO5XSTevGLcfja_R9EPcDzV89UdE"
+	url = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=44.439663,26.096306&radius=50000&type=restaurant&key=AIzaSyA3vy2oO5XSTevGLcfja_R9EPcDzV89UdE"
 	response = requests.get(url)
 	response = response.json()["results"]
+	print(len(response))
+	return
 
 	to_return = []
 
@@ -53,9 +48,8 @@ def get_restaurants_in_Bucharest():
 		new_dict["website"] = website
 		to_return.append(new_dict)
 
-	print("AAA")
-	add_restaurant(to_return[0])
-
+	print(len(to_return))
+	print(to_return[10])
 
 if __name__ == "__main__":
 	get_restaurants_in_Bucharest()

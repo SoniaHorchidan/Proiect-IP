@@ -18,6 +18,24 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.template.loader import render_to_string
 
+from django.http import Http404
+from Restaurante.manageRequest import RequestsManager
+import json
+
+def search_request(request):
+    if request.is_ajax:
+        if len(request.GET) == 0:
+            raise Http404
+
+        for el in request.GET:
+            res = el
+        res = json.loads(res)
+        current_user = request.user.id
+        
+        manager = RequestsManager()
+        result = manager.manage(['Restaurant1', 'Restaurant3', 'Restaurant2'], 25)
+
+        return HttpResponse(json.dumps(result))
 
 
 def index(request):
