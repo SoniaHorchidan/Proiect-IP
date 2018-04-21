@@ -7,14 +7,12 @@
 
     <div id="map"></div>
 	
-	{% endblock %}
-	
+	{% endblock %}	
 	{% block scripts %}
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAe06JHnX5ODl9vT0MrKoPsb4gCRu06Tug&sensor=false&libraries=places" type="text/javascript"></script>
 	 
 	 <script>
-	 
 	 myLocation = navigator.geolocation;
 	 
 	 options = {
@@ -25,7 +23,8 @@
 	 function success(position){
 		myLat = position.coords.latitude;
 		myLong = position.coords.longitude;
-	 
+	 	// myLat = 44.439663;
+	 	// myLong = 26.096306
 		var localPosition = new google.maps.LatLng(myLat, myLong);
 
 		var map = new google.maps.Map(document.getElementById('map'), {
@@ -43,14 +42,32 @@
 		var service = new google.maps.places.PlacesService(map);
 		service.nearbySearch(request, function(results, status) {
 			if (status == google.maps.places.PlacesServiceStatus.OK) {
-				for (var i = 0; i < results.length; i++) {
-					var place = results[i];
-					
-					var marker = new google.maps.Marker({
-						map: map,
-						position: place.geometry.location
-					});
+				var restaurants_names = []
+				for (var i = 0; i < results.length; i++){
+					restaurants_names.push(results[i]['name'])
 				}
+				$.ajax({
+				 	type: "GET",
+				 	url: "a_little_test",
+				 	data: JSON.stringify({'names': restaurants_names}),
+				 	dataType: "json",
+				 	success: function(result){
+				 		console.log(result)
+				 		for (var i = 0; i < result.length; i++){
+				 			var lat_lng = result[i].split('T')
+
+				 			var myLatlng = new google.maps.LatLng(parseFloat(lat_lng[0]), parseFloat(lat_lng[1]));
+
+				 			var marker = new google.maps.Marker({
+								map: map,
+								position: myLatlng
+							});
+				 		}
+				 	},
+				 	error: function(XMLHttpRequest, textStatus, errorThrown) { 
+			        	alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+			    	} 
+				 });
 			}
 		});
 		var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
