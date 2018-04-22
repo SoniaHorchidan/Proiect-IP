@@ -23,8 +23,10 @@
 	 function success(position){
 		myLat = position.coords.latitude;
 		myLong = position.coords.longitude;
-	 	// myLat = 44.439663;
-	 	// myLong = 26.096306
+	 	//myLat = 44.439663;
+	 	//myLong = 26.096306
+	 	//myLat = 44.411379;
+	 	//myLong = 26.172406;
 		var localPosition = new google.maps.LatLng(myLat, myLong);
 
 		var map = new google.maps.Map(document.getElementById('map'), {
@@ -48,11 +50,10 @@
 				}
 				$.ajax({
 				 	type: "GET",
-				 	url: "a_little_test",
-				 	data: JSON.stringify({'names': restaurants_names}),
+				 	url: "search_request",
+				 	data: {'names': restaurants_names},
 				 	dataType: "json",
 				 	success: function(result){
-				 		console.log(result)
 				 		for (var i = 0; i < result.length; i++){
 				 			var lat_lng = result[i].split('T')
 

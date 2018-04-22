@@ -29,7 +29,8 @@ def search_request(request):
 
         for el in request.GET:
             res = el
-        res = json.loads(res)
+        # res = json.loads(res)
+        res = request.GET['names[]']
         current_user = request.user.id
         
         manager = RequestsManager()

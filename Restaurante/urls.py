@@ -11,5 +11,5 @@ urlpatterns = [
 	path('profile/<int:pk>/', views.UserProfileDetailView.as_view(), name='profile'),
 	path('account_activation_sent/', views.account_activation_sent, name='account_activation_sent'),
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),
-    path('a_little_test', views.search_request)
+    path('search_request', views.search_request)
 ]
