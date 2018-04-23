@@ -45,26 +45,77 @@ class RestaurantRecommender:
 		with open(full_file_name, 'rb') as file:
 			self.model = pickle.load(file)
 
+	def load_random_users(self):
+		folder = 'model/'
+		file_name = 'random.txt'
+		path = os.path.realpath(__file__)
+		path = path.split('/')
+		path.pop()
+		path = '/'.join(path)
+		full_file_name = os.path.join(path, folder, file_name)
+		with open(full_file_name, 'rb') as file:
+			return pickle.load(file)
 
-	def predict(self, user_features, items_features, restaurants_around, user_id = None, number_to_return = 3):
+	def load_number_of_users(self):
+		folder = 'model/'
+		file_name = 'users_number.txt'
+		path = os.path.realpath(__file__)
+		path = path.split('/')
+		path.pop()
+		path = '/'.join(path)
+		full_file_name = os.path.join(path, folder, file_name)
+		with open(full_file_name, 'rb') as file:
+			return pickle.load(file)
+
+	def save_number_of_users(self, number):
+		folder = 'model/'
+		file_name = 'users_number.txt'
+		path = os.path.realpath(__file__)
+		path = path.split('/')
+		path.pop()
+		path = '/'.join(path)
+		full_file_name = os.path.join(path, folder, file_name)
+		with open(full_file_name, 'wb') as file:
+			pickle.dump(number, file, protocol=pickle.HIGHEST_PROTOCOL)
+
+	def train_new_user(self, user_features, items_features):
+		self.train(user_features, items_features)
+		users_number = self.load_number_of_users()
+		self.save_number_of_users(users_number + 1)
+		return users_number + 1
+		
+
+	def predict(self, user_features, items_features, restaurants_around, user_id = None, trained_user = False, number_to_return = 3):
 		number_of_restaurants = len(items_features)
+		# if (not trained_user):
+		# 	user_number = self.train_new_user(user_features, items_features)
+		# 	user_id = user_number
+		# else:
+		# 	user_number = -1
 		items_features = sparse.coo_matrix(items_features)
 		user_features = sparse.csr_matrix(user_features)
+
+		# mock
+		user_id = None
 		if (user_id == None):
 			user_ratings = np.zeros(number_of_restaurants)
+			user_number = -1
 		else:
 			user_ratings = user_id # + number of random generated users for training
+
 
 		scores = self.model.predict(user_ratings, item_ids=np.arange(number_of_restaurants), 
 									user_features=user_features, item_features=items_features)
 
-		return self.__select_restaurants_around(restaurants_around, np.argsort(-scores), number_to_return)
+		return self.__select_restaurants_around(restaurants_around, np.argsort(-scores), number_to_return), user_number
 
 
 	def __select_restaurants_around(self, restaurants_around, ml_restaurants, number_to_return):
 		ml_restaurants = [el + 1 for el in ml_restaurants]
 		to_return = [el for el in ml_restaurants if el in restaurants_around]
 		return to_return[:number_to_return]
+
+
 
 
 # some static mocked data
@@ -144,3 +195,5 @@ class RestaurantRecommender:
 # predicted_array = recommender.predict(mock_single_user_features4, mock_items_features,
 # 									restaurants_around)
 # print(predicted_array)
+
+

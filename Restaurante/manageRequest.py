@@ -29,6 +29,8 @@ class RequestsManager:
 			all_users_preferences.append([1 if e in ids else 0 for e in all_preferences])
 
 		all_users_preferences = np.matrix(all_users_preferences)
+		print(len(all_users_preferences))
+		print('-----------------')
 
 
 		recommender.train(all_users_preferences, self.__get_restaurants_preferences())
@@ -44,15 +46,33 @@ class RequestsManager:
 		all_preferences = [el.id for el in all_preferences]
 		return all_preferences
 
+	def __get_user_info(self, user_id):
+		user = User.objects.filter(id__in=[user_id])[0]
+		user_profile = Profile.objects.filter(user__in=[user])[0]
+		return user_profile.trained, user_profile.artificial_id
+
+	def __add_artificial_id(self, user_id, id):
+		user = User.objects.filter(id__in=[user_id])[0]
+		user_profile = Profile.objects.filter(user__in=[user])[0]
+		user_profile.trained = True
+		user_profile.artificial_id = id
+		user_profile.save()
+
 	def manage(self, list_of_restaurants, user_id = None):
 		# takes a list of restaurants(by name) around the user and the user ID(current user)
 		# gets all the needed data from database
 		# passes the information to the restaurant recommender
 		recommender = RestaurantRecommender()
 		recommender.load_model()
-		result = recommender.predict(user_features=self.__get_user_preferences(user_id),
+		trained, artificial_id = self.__get_user_info(user_id)
+		result, usr = recommender.predict(user_features=self.__get_user_preferences(user_id),
 									items_features=self.__get_restaurants_preferences(),
-									restaurants_around=self.__get_restaurants_around(list_of_restaurants))
+									restaurants_around=self.__get_restaurants_around(list_of_restaurants),
+									user_id=artificial_id,
+									trained_user=trained)
+		if (usr != -1):
+			self.__add_artificial_id(user_id, usr)
+
 		return self.__get_coordinates(result)
 
 	def __get_coordinates(self, list_of_restaurants):
@@ -81,8 +101,7 @@ class RequestsManager:
 			ids = [e.id for e in el]
 			to_return.append([1 if e in ids else 0 for e in self.all_preferences])
 
-		return np.matrix(to_return)
-
+		return to_return
 
 # m = RequestsManager()
 # m.manage(['Restaurant1', 'Restaurant3', 'Restaurant2'], 25)

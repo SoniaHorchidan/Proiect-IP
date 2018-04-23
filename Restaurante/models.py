@@ -30,6 +30,8 @@ class Profile(models.Model):
     birth_date = models.DateField(null=True, blank=True)
     #favourites = models.ManyToManyField(Restaurant, related_name='Favourites')
     preferences = models.ManyToManyField(Keyword, related_name='Preferences')
+    trained = models.BooleanField(blank=True, default=False)
+    artificial_id = models.IntegerField(blank=True, default=-1)
     email_confirmed = models.BooleanField(default=False)
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
