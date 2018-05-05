@@ -27,14 +27,21 @@ def search_request(request):
         if len(request.GET) == 0:
             raise Http404
 
-        for el in request.GET:
-            res = el
-        # res = json.loads(res)
-        res = request.GET['names[]']
+        # for el in request.GET:
+        #     res = el
+        # # res = json.loads(res)
+        # print(res)
+
+        res = request.GET.getlist('names[]')
         current_user = request.user.id
-        
+        # print('-------------------')
+        # print(res)
+        # print('------------------')
+        # return
         manager = RequestsManager()
-        result = manager.manage(['Restaurant1', 'Restaurant3', 'Restaurant2'], 25)
+        #result = manager.manage(['Restaurant1', 'Restaurant3', 'Restaurant2'], 25)
+        result = manager.manage(res, current_user)
+        print(result)
 
         return HttpResponse(json.dumps(result))
 

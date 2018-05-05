@@ -9,6 +9,7 @@ class RestaurantRecommender:
 		self.model = LightFM(loss='warp')
 
 	def train(self, users_features, items_features):
+		print("Training!")
 		# prepare data
 
 		# eventually save the random generated users locally, load them
@@ -21,7 +22,7 @@ class RestaurantRecommender:
 		items_features = sparse.coo_matrix(items_features)
 
 		self.model.fit_partial(user_ratings, user_features=users_features,
-							item_features=items_features, epochs=40)
+							item_features=items_features, epochs=100)
 
 	def save_model(self):
 		folder = 'model/'
@@ -87,31 +88,33 @@ class RestaurantRecommender:
 
 	def predict(self, user_features, items_features, restaurants_around, user_id = None, trained_user = False, number_to_return = 3):
 		number_of_restaurants = len(items_features)
-		# if (not trained_user):
-		# 	user_number = self.train_new_user(user_features, items_features)
-		# 	user_id = user_number
-		# else:
-		# 	user_number = -1
+		if (not trained_user):
+			user_number = self.train_new_user(user_features, items_features)
+			user_id = user_number
+		else:
+			user_number = -1
 		items_features = sparse.coo_matrix(items_features)
 		user_features = sparse.csr_matrix(user_features)
 
 		# mock
-		user_id = None
-		if (user_id == None):
-			user_ratings = np.zeros(number_of_restaurants)
-			user_number = -1
-		else:
-			user_ratings = user_id # + number of random generated users for training
+		# user_id = None
+		# if (user_id == None):
+		# 	user_ratings = np.zeros(number_of_restaurants)
+		# 	user_number = -1
+		# else:
+		# 	user_ratings = user_id # + number of random generated users for training
 
+		print('User number:', user_number)
 
-		scores = self.model.predict(user_ratings, item_ids=np.arange(number_of_restaurants), 
+		scores = self.model.predict(0, item_ids=np.arange(number_of_restaurants), 
 									user_features=user_features, item_features=items_features)
 
+		print(scores)
 		return self.__select_restaurants_around(restaurants_around, np.argsort(-scores), number_to_return), user_number
 
 
 	def __select_restaurants_around(self, restaurants_around, ml_restaurants, number_to_return):
-		ml_restaurants = [el + 1 for el in ml_restaurants]
+		ml_restaurants = [el + 91 for el in ml_restaurants]
 		to_return = [el for el in ml_restaurants if el in restaurants_around]
 		return to_return[:number_to_return]
 

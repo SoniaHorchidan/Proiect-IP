@@ -73,10 +73,14 @@ class RequestsManager:
 		if (usr != -1):
 			self.__add_artificial_id(user_id, usr)
 
+		print(result)
+
 		return self.__get_coordinates(result)
 
 	def __get_coordinates(self, list_of_restaurants):
 		coordinates = Restaurant.objects.filter(id__in=list_of_restaurants)
+		for el in coordinates:
+			print(el.name)
 		coordinates = [el.location for el in coordinates]
 		return coordinates
 

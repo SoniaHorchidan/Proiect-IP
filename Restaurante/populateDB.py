@@ -3,7 +3,12 @@ from keywordFinder import findKeywords
 import sys
 import os
 import django
-sys.path.append('/home/daneel/Desktop/Proiect IP/Proiect-IP')
+path = os.path.realpath(__file__)
+path = path.split('/')
+path.pop()
+path.pop()
+path = '/'.join(path)
+sys.path.append(path)
 os.environ['DJANGO_SETTINGS_MODULE']='ProiectIP.settings'
 django.setup()
 from Restaurante.models import Restaurant, Keyword
@@ -123,4 +128,5 @@ def add_keywords():
 
 if __name__ == "__main__":
 	# add_keywords()
-	get_restaurants_in_Bucharest()
+	# get_restaurants_in_Bucharest()
+	pass
