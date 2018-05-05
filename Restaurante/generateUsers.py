@@ -52,4 +52,4 @@ if __name__=="__main__":
 	recommender = RestaurantRecommender()
 	recommender.train(generate_all_users(), get_restaurants_preferences())
 	recommender.save_model()
-	recommender.save_number_of_users(NUMBER_OF_USERS - 1)
+	#recommender.save_number_of_users(NUMBER_OF_USERS - 1)

@@ -127,6 +127,6 @@ def add_keywords():
 
 
 if __name__ == "__main__":
-	# add_keywords()
-	# get_restaurants_in_Bucharest()
+	add_keywords()
+	get_restaurants_in_Bucharest()
 	pass
