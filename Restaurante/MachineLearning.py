@@ -8,7 +8,7 @@ class RestaurantRecommender:
 	def __init__(self):
 		self.model = LightFM(loss='warp')
 
-	def train(self, users_features, items_features):
+	def train(self, users_features, items_features, epochs = 150):
 		print("Training!")
 		number_of_users, number_of_features = users_features.shape
 		number_of_restaurants = len(items_features)
@@ -18,7 +18,7 @@ class RestaurantRecommender:
 		items_features = sparse.coo_matrix(items_features)
 
 		self.model.fit_partial(user_ratings, user_features=users_features,
-							item_features=items_features, epochs=100)
+							item_features=items_features, epochs=epochs)
 
 	def save_model(self):
 		folder = 'model/'
@@ -76,7 +76,7 @@ class RestaurantRecommender:
 			pickle.dump(number, file, protocol=pickle.HIGHEST_PROTOCOL)
 
 	def train_new_user(self, user_features, items_features):
-		self.train(user_features, items_features)
+		self.train(user_features, items_features, epochs=5)
 
 	def predict(self, user_features, items_features, restaurants_around, trained_user, restaurants_min_id, number_to_return = 3):
 		number_of_restaurants = len(items_features)
