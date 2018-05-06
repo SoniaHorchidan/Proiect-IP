@@ -8,25 +8,21 @@
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-       <div style="width:90%; margin: 0 auto; background-color: white; padding: 50px;  border-radius: 25px;  box-shadow: 2px 2px 2px grey; ">
+       <div style="width:90%; margin: 0 auto; background-color: rgba(169,169,169, 0.5); padding: 50px;  border-radius: 25px;  box-shadow: 2px 2px 2px grey;">
          <div>
-           <h2>Hello, {{ userprofile.user.username }}!</h2>
+           <h2 style = "color: white; text-shadow: 2px 2px 4px #000000;">Hello, {{ userprofile.user.username }}!</h2>
         <div class="centered">
-          <h1>{{ userprofile.user.first_name }} {{ userprofile.user.last_name}}' profile</h1>
+          <h1 style = "color: white;">{{ userprofile.user.first_name }} {{ userprofile.user.last_name}}' profile</h1>
         </div>
-  <h3>Email: {{ userprofile.user.email }}</h3>
- 	<h3>Favourite restaurants:</h3>
- 	{% for restaurant in userprofile.favourites.all %}
-      <p>{{ restaurant.name }}</p>
- 	{% endfor %}
-  <h3>Preferences:</h3>
+  <h3 style = "color: white; text-shadow: 2px 2px 4px #000000;">Email: {{ userprofile.user.email }}</h3>
+  <h3 style = "color: white; text-shadow: 2px 2px 4px #000000;">Preferences:</h3>
   {% for keyword in userprofile.preferences.all %}
-    <p>{{ keyword.name }}</p>
+    <p style = "color: white; text-shadow: 2px 2px 4px #000000;">{{ keyword.name }}</p>
   {% endfor %}
   <a href = "/profile/{{ user.profile.pk }}/update">
-  	<button class = "btn-success">
-  		Edit Profile
-  	</button>
+  	<div style="width: 25%; text-align: left;">
+            <button class="btn btn-default" style="min-width: 60%; margin: 10px;">Edit profile</button>
+        </div>
   </a>
 </div>
 </div>
