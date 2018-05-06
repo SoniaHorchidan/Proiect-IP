@@ -5,6 +5,14 @@
 {% block content %}
    <link rel="stylesheet" href="/static/css/search.css">
 
+   <div class="container">
+   	<h2>My List</h2>
+   	<ul class="list-group">
+   		<li class="list-group-item"> First item </li>
+   		<li class="list-group-item"> Second item </li>
+   		<li class="list-group-item"> Third item </li>
+   	</ul>
+
     <div id="map"></div>
 	
 	{% endblock %}	
@@ -13,75 +21,103 @@
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAe06JHnX5ODl9vT0MrKoPsb4gCRu06Tug&sensor=false&libraries=places" type="text/javascript"></script>
 	 
 	 <script>
-	 myLocation = navigator.geolocation;
-	 
-	 options = {
-		enableHighAccuracy: true,
-	 }
-	 myLocation.getCurrentPosition(success, failure, options);
-	 
-	 function success(position){
-		myLat = position.coords.latitude;
-		myLong = position.coords.longitude;
-	 	//myLat = 44.439663;
-	 	//myLong = 26.096306
-	 	//myLat = 44.411379;
-	 	//myLong = 26.172406;
-	 	myLat = 44.435616
-	 	myLong = 26.100850
-		var localPosition = new google.maps.LatLng(myLat, myLong);
+	 onLoad();
 
-		var map = new google.maps.Map(document.getElementById('map'), {
-			center: localPosition,
-			zoom: 15,
-			scrollwheel: true
-		});
+	 function initialize() {
+			var service = new google.maps.places.PlacesService(map);
+			service.nearbySearch(request, function(results, status) {
+				if (status == google.maps.places.PlacesServiceStatus.OK) {
+					var restaurants_names = []
+					for (var i = 0; i < results.length; i++){
+						restaurants_names.push(results[i]['name'])
+					}
+					$.ajax({
+					 	type: "GET",
+					 	url: "search_request",
+					 	data: {'names': restaurants_names},
+					 	dataType: "json",
+					 	success: function(result){
+					 		for (var i = 0; i < result.length; i++){
+					 			var lat_lng = result[i].split('T')
 
-		var request = {
-			location: localPosition,
-			radius: '1000',
-			types: ['restaurant']
-		};
-		
-		var service = new google.maps.places.PlacesService(map);
-		service.nearbySearch(request, function(results, status) {
-			if (status == google.maps.places.PlacesServiceStatus.OK) {
-				var restaurants_names = []
-				for (var i = 0; i < results.length; i++){
-					restaurants_names.push(results[i]['name'])
+					 			var myLatlng = new google.maps.LatLng(parseFloat(lat_lng[0]), parseFloat(lat_lng[1]));
+
+					 			var marker = new google.maps.Marker({
+									map: map,
+									position: myLatlng
+								});
+					 		}
+					 	},
+					 	error: function(XMLHttpRequest, textStatus, errorThrown) { 
+				        	alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+				    	} 
+					 });
 				}
-				$.ajax({
-				 	type: "GET",
-				 	url: "search_request",
-				 	data: {'names': restaurants_names},
-				 	dataType: "json",
-				 	success: function(result){
-				 		for (var i = 0; i < result.length; i++){
-				 			var lat_lng = result[i].split('T')
-
-				 			var myLatlng = new google.maps.LatLng(parseFloat(lat_lng[0]), parseFloat(lat_lng[1]));
-
-				 			var marker = new google.maps.Marker({
-								map: map,
-								position: myLatlng
-							});
-				 		}
-				 	},
-				 	error: function(XMLHttpRequest, textStatus, errorThrown) { 
-			        	alert("Status: " + textStatus); alert("Error: " + errorThrown); 
-			    	} 
-				 });
-			}
-		});
-		var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
-		var marker = new google.maps.Marker({map: map, position: localPosition, icon: image});
-	  }
-	  
-	  function failure(){
-		$('#map').html('<p> Cannot get coordinates. Please activate your location tracking </p>');
+			});
+			var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
+			var marker = new google.maps.Marker({map: map, position: localPosition, icon: image});
+		  }
+		  
+	function onClickRecommend() {
+		google.maps.event.addDomListener(window, 'load', initialize);
 	}
 
-	// Run the initialize function when the window has finished loading.
-	google.maps.event.addDomListener(window, 'load', initialize);
+	function onClickSeeOnMap() {
+
+	}
+
+	function onLoad() {
+		myLocation = navigator.geolocation;
+		 
+		 options = {
+			enableHighAccuracy: true,
+			timeout: 10000,
+			maximumAge:60000,
+		 }
+		 myLocation.getCurrentPosition(success, failure, options);
+		 
+		 function success(position){
+			myLat = position.coords.latitude;
+			myLong = position.coords.longitude;
+		 	//myLat = 44.439663;
+		 	//myLong = 26.096306
+		 	//myLat = 44.411379;
+		 	//myLong = 26.172406;
+		 	myLat = 44.435616
+		 	myLong = 26.100850
+			var localPosition = new google.maps.LatLng(myLat, myLong);
+
+			var map = new google.maps.Map(document.getElementById('map'), {
+				center: localPosition,
+				zoom: 15,
+				scrollwheel: true
+			});
+
+			var request = {
+				location: localPosition,
+				radius: '1000',
+				types: ['restaurant']
+			};
+
+			var service = new google.maps.places.PlacesService(map);
+			service.nearbySearch(request, function(results, status) {
+				if (status == google.maps.places.PlacesServiceStatus.OK) {
+					var restaurants_names = []
+					for (var i = 0; i < results.length; i++){
+						var myLatlng = results[i].geometry.location;
+
+					 	var marker = new google.maps.Marker({
+							map: map,
+							position: myLatlng
+						});
+					}
+				}
+			});
+		}
+
+		function failure(){
+			$('#map').html('<p> Cannot get coordinates. Please activate your location tracking </p>');
+		}
+	}
    </script>
 	{% endblock %}
