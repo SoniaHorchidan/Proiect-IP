@@ -90,6 +90,8 @@ def signup(request):
             user.is_active = False
             user.refresh_from_db()  # load the profile instance created by the signal
             user.profile.first_name = form.cleaned_data.get('first_name')
+            if form.cleaned_data.get('preferences').count() > 5:
+                return render(request, 'signup.html', {'form': form, 'error_message': 'You cannot have more than 5 preferences at a time!:('})
             user.profile.preferences.set(form.cleaned_data.get('preferences'))
             user.save()
             raw_password = form.cleaned_data.get('password1')
