@@ -9,8 +9,8 @@ urlpatterns = [
     path('signup',views.signup, name="signup"),
 	path('search', views.search_view, name="search"),
 	path('profile/<int:pk>/', views.UserProfileDetailView.as_view(), name='profile'),
-    path('profile/<int:pk>/update', views.ProfileUpdateView.as_view(), name = 'profile_update'),
+    path('profile/<int:pk>/update', views.update_profile, name = 'profile_update'),
 	path('account_activation_sent/', views.account_activation_sent, name='account_activation_sent'),
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),
-    path('search_request', views.search_request)
+    path('search_request', views.search_request),
 ]

@@ -24,27 +24,18 @@ class SignUpForm(UserCreationForm):
                                      password=datas['password1'],
                                      )
         user.is_active = False
-        #profile=Profile()
-        #profile.user=u
         user.profile.birth_date = datas['birth_date']
-        #profile.save()
         user.profile.preferences.set(datas['preferences'])
         user.save()
         return user
 
-class UserProfileForm(forms.ModelForm):
-    class Meta:
-        model = Profile
-        fields = "__all__"
 
-class UpdateUserForm(forms.ModelForm):
+class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'password', 'email', 'first_name', 'last_name']
+        fields = ('username', 'first_name', 'last_name', 'email')
 
-class UpdateProfileForm(forms.ModelForm):
+class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        exclude = ['user']
-
-
+        fields = ('birth_date', 'preferences')

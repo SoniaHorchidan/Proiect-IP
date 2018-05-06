@@ -1,0 +1,24 @@
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  {% for field in user_form %}
+      <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+
+    {% for field in profile_form %}
+      <p>
+        {{ field.label_tag }}<br>
+        {{ field }}
+        {% for error in field.errors %}
+          <p style="color: red">{{ error }}</p>
+        {% endfor %}
+      </p>
+    {% endfor %}
+
+    <button type="submit" class="buton" style = "font-size: 1.5em; padding: 10px;">Save</button>
+</form>

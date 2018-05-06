@@ -1,7 +1,7 @@
 from django.shortcuts import reverse
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
-from Restaurante.forms import LoginForm, SignUpForm, UpdateUserForm, UpdateProfileForm, UserProfileForm
+from Restaurante.forms import LoginForm, SignUpForm, UserForm, ProfileForm
 from Restaurante.models import Profile
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
@@ -21,12 +21,12 @@ from django.template.loader import render_to_string
 from django.http import Http404
 from Restaurante.manageRequest import RequestsManager
 import json
+from django.contrib import messages
 
 def search_request(request):
     if request.is_ajax:
         if len(request.GET) == 0:
             raise Http404
-
 
         res = request.GET.getlist('names[]')
         current_user = request.user.id
@@ -113,7 +113,6 @@ class UserProfileDetailView(DetailView):
     model = Profile
     context_object_name = 'userprofile'
 
-
 def activate(request, uidb64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
@@ -130,40 +129,28 @@ def activate(request, uidb64, token):
     else:
         return render(request, 'account_activation_invalid.html')
 
-class ProfileUpdateView(UpdateView):
-    template_name = 'editProfile.html'
-    form_class = UserProfileForm
-    model = Profile
 
-    def get_success_url(self, *args, **kwargs):
-        return reverse('profile', kwargs={'pk': self.object.pk})
-
-    def get_context_data(self, **kwargs):
-        context = super(ProfileUpdateView, self).get_context_data(**kwargs)
-        return context
-
-    def update_profile(request):
-        if request.method == 'POST':
-            form = UserForm(request.POST, instance=request.user.userprofile)
-            if uform.is_valid():
-                form.save()
-                messages.success(request, _('Your profile was successfully updated!'))
-                return redirect('profile')
-            else:
-                messages.error(request, _('Please correct the error below.'))
+def update_profile(request, pk):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile = Profile.objects.get(pk=pk)
+            profile.trained = False
+            profile_form.save()
+            messages.success(request, 'Your profile was successfully updated!')
+            #return render(request, 'profile.html', {'pk': pk})
+            return redirect('home')
         else:
-            form = UserForm(instance=request.user.buser)
-        return render(request, 'profile.html')
-
-def profile_update(request, *args, **kwargs):
-    update_user_form = UpdateUserForm(data=request.POST, instance=request.user)
-    update_user_profile_form = UpdateProfileForm(data=request.POST, instance = request.user.profile)
-    if update_user_form.is_valid() and update_user_profile_form.is_valid():
-        user = update_user_form.save()
-        userProfile = update_user_profile_form.save(commit=False)
-        userProfile.user = user
-        userProfile.save()
-        return HttpResponseRedirect(self.get_success_url())
+            messages.error(request, 'Please correct the error below.')
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = ProfileForm(instance=request.user.profile)
+    return render(request, 'edit_profile.html', {
+        'user_form': user_form,
+        'profile_form': profile_form
+    })
 
 
 def account_activation_sent(request):
