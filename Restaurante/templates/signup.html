@@ -1,6 +1,7 @@
 {% extends 'layout_no_menu.html' %} 
 {% block title %}Sign Up{% endblock %} 
 {% block content %}
+{% load widget_tweaks %}
 <link rel="stylesheet" href="/static/css/signup.css">
  <div class="vertical-center" >
   <div class="container">
@@ -16,7 +17,7 @@
       <p>
       <div class = "form-group">
         {{ field.label_tag }}<br>
-        <div class = "form-control" style = "width: 100%; height: 75%">{{ field }}</div>
+        <div class = "form-control" style = "width: 100%; height: 75%"> {% render_field field class="form-control is-valid" %}</div>
       </div>
         {% for error in field.errors %}
          <div style="width: 100%; text-align: center; color: red; text-shadow: 2px 2px 4px #000000;">
