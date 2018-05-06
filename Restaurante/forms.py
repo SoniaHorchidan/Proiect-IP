@@ -32,4 +32,19 @@ class SignUpForm(UserCreationForm):
         user.save()
         return user
 
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = "__all__"
+
+class UpdateUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['username', 'password', 'email', 'first_name', 'last_name']
+
+class UpdateProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        exclude = ['user']
+
 

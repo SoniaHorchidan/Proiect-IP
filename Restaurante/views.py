@@ -1,7 +1,7 @@
 from django.shortcuts import reverse
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
-from Restaurante.forms import LoginForm, SignUpForm
+from Restaurante.forms import LoginForm, SignUpForm, UpdateUserForm, UpdateProfileForm, UserProfileForm
 from Restaurante.models import Profile
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
@@ -129,6 +129,41 @@ def activate(request, uidb64, token):
         return redirect('home')
     else:
         return render(request, 'account_activation_invalid.html')
+
+class ProfileUpdateView(UpdateView):
+    template_name = 'editProfile.html'
+    form_class = UserProfileForm
+    model = Profile
+
+    def get_success_url(self, *args, **kwargs):
+        return reverse('profile', kwargs={'pk': self.object.pk})
+
+    def get_context_data(self, **kwargs):
+        context = super(ProfileUpdateView, self).get_context_data(**kwargs)
+        return context
+
+    def update_profile(request):
+        if request.method == 'POST':
+            form = UserForm(request.POST, instance=request.user.userprofile)
+            if uform.is_valid():
+                form.save()
+                messages.success(request, _('Your profile was successfully updated!'))
+                return redirect('profile')
+            else:
+                messages.error(request, _('Please correct the error below.'))
+        else:
+            form = UserForm(instance=request.user.buser)
+        return render(request, 'profile.html')
+
+def profile_update(request, *args, **kwargs):
+    update_user_form = UpdateUserForm(data=request.POST, instance=request.user)
+    update_user_profile_form = UpdateProfileForm(data=request.POST, instance = request.user.profile)
+    if update_user_form.is_valid() and update_user_profile_form.is_valid():
+        user = update_user_form.save()
+        userProfile = update_user_profile_form.save(commit=False)
+        userProfile.user = user
+        userProfile.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 def account_activation_sent(request):

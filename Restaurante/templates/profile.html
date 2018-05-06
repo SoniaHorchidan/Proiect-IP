@@ -23,6 +23,11 @@
   {% for keyword in userprofile.preferences.all %}
     <p>{{ keyword.name }}</p>
   {% endfor %}
+  <a href = "/profile/{{ user.profile.pk }}/update">
+  	<button class = "btn-success">
+  		Edit Profile
+  	</button>
+  </a>
 </div>
 </div>
 </div>
