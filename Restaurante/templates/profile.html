@@ -19,6 +19,10 @@
   {% for keyword in userprofile.preferences.all %}
     <p style = "color: white; text-shadow: 2px 2px 4px #000000;">{{ keyword.name }}</p>
   {% endfor %}
+  <h3 style = "color: white; text-shadow: 2px 2px 4px #000000;">Favourites:</h3>
+  {% for restaurant in userprofile.favourites.all %}
+      <p style = "color: white; text-shadow: 2px 2px 4px #000000;">{{ restaurant.name }}</p>
+  {% endfor %}
   <a href = "/profile/{{ user.profile.pk }}/update">
   	<div style="width: 25%; text-align: left;">
             <button class="btn btn-default" style="min-width: 60%; margin: 10px;">Edit profile</button>

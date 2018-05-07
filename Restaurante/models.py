@@ -29,7 +29,7 @@ class Restaurant(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
     birth_date = models.DateField(null=True, blank=True)
-    #favourites = models.ManyToManyField(Restaurant, related_name='Favourites')
+    favourites = models.ManyToManyField(Restaurant, related_name='Favourites')
     preferences = models.ManyToManyField(Keyword, related_name='Preferences')
     trained = models.BooleanField(blank=True, default=False)
     #artificial_id = models.IntegerField(blank=True, default=-1)

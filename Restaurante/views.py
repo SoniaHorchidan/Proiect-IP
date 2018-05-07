@@ -2,7 +2,7 @@ from django.shortcuts import reverse
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from Restaurante.forms import LoginForm, SignUpForm, UserForm, ProfileForm
-from Restaurante.models import Profile
+from Restaurante.models import Profile, Restaurant
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.views.generic import ListView, DetailView, DeleteView, CreateView, UpdateView, View
@@ -114,6 +114,27 @@ class UserProfileDetailView(DetailView):
     template_name = 'profile.html'
     model = Profile
     context_object_name = 'userprofile'
+
+class SearchPageListView(ListView):
+    template_name = 'find.html'
+    model = Restaurant
+    context_object_name = 'items'
+    def get_queryset(self):
+        searchInput = self.kwargs['input']
+        queryset = Restaurant.objects.filter(name__contains=searchInput).all()
+        return queryset
+
+class AddedFavoriteView(View):
+     def get(self, request, *args, **kwargs):
+        obj = Restaurant.objects.get(pk=kwargs['pk'])
+        if obj not in request.user.profile.favourites.all():
+            request.user.profile.favourites.add(obj)
+            request.user.profile.save()
+            return render( request, 'favorite.html', {'response': 'The restaurant was added to your favorites list!'})
+        else:
+            request.user.profile.favourites.remove(obj)
+            request.user.profile.save()
+            return render( request, 'favorite.html', {'response': 'The restaurant was removed from your favorites list!'})
 
 def activate(request, uidb64, token):
     try:

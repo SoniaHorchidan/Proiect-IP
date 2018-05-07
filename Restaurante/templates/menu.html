@@ -1,5 +1,14 @@
 <link rel="stylesheet" href="/static/css/menu.css">
 
+<nav >
+    <script>
+        function getSearchParams(){
+            var input =  document.getElementById("searchBox").value;
+            location.href="/find/" + input;
+        }
+    </script>
+
+
 <nav class="navbar navbar-custom">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -18,6 +27,12 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       <ul class="nav navbar-nav pull-right">
+        <li>
+          <div style="margin-bottom: 5px;">
+            <input type="text" placeholder="Find Restaurants" id="searchBox" class="form-control" style="width:75%; padding-bottom: 5px; margin-top: -10px; height: 90%;">
+            <button onclick="getSearchParams()" class="buton" style = "font-size: 0.5em;background-color: #555555;;border: none;color: white;padding: 5px 9px;text-align: center;text-decoration: none;display: inline-block;border-radius:4px;margin-top: -10px;">Find</button>
+          </div>
+        </li>
         <li>
             <a href="{% url 'search' %}">Search restaurants</a>
         </li>
@@ -42,4 +57,5 @@
 
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
+</nav>
 </nav>
