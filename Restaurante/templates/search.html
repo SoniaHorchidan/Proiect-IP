@@ -8,12 +8,11 @@
    <div class="container">
    	<h2>My List</h2>
    	<ul id='restaurantsList' class="list-group">
-<!--    		<li class="list-group-item"> First item </li>
-   		<li class="list-group-item"> Second item </li>
-   		<li class="list-group-item"> Third item </li> -->
    	</ul>
 
-    <div id="map"></div>
+   	<button id="showMap" onclick="onClickSeeOnMap()">Show Map</button>
+
+    <div id="map" style="display: none;"></div>
 	
 	{% endblock %}	
 	{% block scripts %}
@@ -63,7 +62,16 @@
 	}
 
 	function onClickSeeOnMap() {
-
+		let map = document.getElementById("map");
+		if (map.style.display == "inline"){
+			map.style.display = "none";
+			document.getElementById("showMap").innerText = "Show Map";
+		}
+		else{
+			map.style.display = "inline";
+			document.getElementById("showMap").innerText = "Hide Map";
+			window.scrollTo(0, window.innerHeight);
+		}
 	}
 
 	function onLoad() {
