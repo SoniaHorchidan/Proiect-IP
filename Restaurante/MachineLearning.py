@@ -78,7 +78,7 @@ class RestaurantRecommender:
 	def train_new_user(self, user_features, items_features):
 		self.train(user_features, items_features, epochs=5)
 
-	def predict(self, user_features, items_features, restaurants_around, trained_user, restaurants_min_id, number_to_return = 3):
+	def predict(self, user_features, items_features, restaurants_around, trained_user, restaurants_min_id, number_to_return = 5):
 		number_of_restaurants = len(items_features)
 
 		if (not trained_user):
