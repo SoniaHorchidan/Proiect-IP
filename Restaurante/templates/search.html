@@ -6,16 +6,12 @@
    <link rel="stylesheet" href="/static/css/search.css">
 
    <div class="container" style="margin-top: 20%;">
-   	<h2>My List</h2>
    	<button id="recommendButton" onclick="onClickRecommend()">Recommend</button>
-   	<ul id='restaurantsList' class="list-group">
-   		<!-- <li class="list-group-item" style="background: red;">Test123</li> -->
-   	</ul>
-
    	<button id="showMap" onclick="onClickSeeOnMap()">Show Map</button>
+   	<ul id='restaurantsList' class="list-group" style="width:fit-content; position: absolute;"></ul>
 
-    <div id="map" style="display: none;"></div>
-	
+    <div id="map" style="display: none; width: 40%; position: absolute"></div>
+	</div>
 	{% endblock %}	
 	{% block scripts %}
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
