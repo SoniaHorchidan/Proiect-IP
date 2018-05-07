@@ -1,41 +1,81 @@
+
+
 {% extends 'layout_no_menu.html' %} 
 {% block title %}Sign Up{% endblock %} 
 {% block content %}
 {% load widget_tweaks %}
 <link rel="stylesheet" href="/static/css/signup.css">
- <div class="vertical-center" >
-  <div class="container">
-    <div class="row">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+<link rel="stylesheet" href="/static/css/login.css">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+   <ul class="navbar-nav ml-auto">
+   <li class="nav-item">
+      <a class="nav-link js-scroll-trigger" href="{% url 'index' %}"> <i class="fas fa-long-arrow-alt-left"></i> Go back to first page</a>
+   </li>
+</nav>
+<div class="vertical-center" style="margin-top: 10%;">
+<div class="container">
+   <div class="row">
       <div class="col-md-12">
- <div style="width:90%; margin: 0 auto; background-color: rgba(169,169,169, 0.5); padding: 50px;  border-radius: 25px;  box-shadow: 2px 2px 2px grey; ">
-        <div class="centered">
-            <h1>Sign Up</h1>
-        </div>
-  <form method="post">
-    {% csrf_token %}
-    {% for field in form %}
-      <p>
-      <div class = "form-group">
-        {{ field.label_tag }}<br>
-        <div class = "form-control" style = "width: 100%; height: 75%"> {% render_field field class="form-control is-valid" %}</div>
-      </div>
-        {% for error in field.errors %}
-         <div style="width: 100%; text-align: center; color: red; text-shadow: 2px 2px 4px #000000;">
-          <p style="color: red">{{ error }}</p>
-          </div>
-        {% endfor %}
-      </p>
-    {% endfor %}
-      <div role="alert" style="color: red;">
-                {{ error_message }}
-      </div>
+            <div class="centered">
+                <img src="/static/images/logo.png" width="350px" style="margin: 25px;">
+              <hr class="light my-4">
+               <h1>Sign Up</h1>
+               <br>
+               <br>
 
-    <div style="width: 100%; text-align: center;">
-            <button type="submit" class="btn btn-default" style="min-width: 60%; margin: 10px;">Register!</button>
-        </div>
-  </form>
-    </div>
-    </div>
-  </div>
+            </div>
+            <form method="post">
+               {% csrf_token %}
+
+               {% for hidden_field in form.hidden_fields %}
+               {{ hidden_field }}
+               {% endfor %}
+               {% if form.non_field_errors %}
+               <div class="alert alert-danger" role="alert">
+                  {% for error in form.non_field_errors %}
+                  {{ error }}
+                  {% endfor %}
+               </div>
+               {% endif %}
+               {% for field in form.visible_fields %}
+               <div class="form-group">
+                <div class="row" style="margin:20px;">
+                  <div class="col-md-3">
+                  {{ field.label_tag }}
+                </div>
+                <div class="col-md-9">
+                  {% if fiels.label_tag == "Preferences:" %}
+                      {% render_field field class="custom-control custom-checkbox" %}
+                  {% else %}
+                    {% if form.is_bound %}
+                    {% if field.errors %}
+                    {% render_field field class="form-control is-invalid" %}
+                  </div>
+                    {% for error in field.errors %}
+                    <div class="invalid-feedback">
+                       {{ error }}
+                    </div>
+                    {% endfor %}
+                    {% else %}
+                    {% render_field field class="form-control is-valid" %}
+                    {% endif %}
+                    {% else %}
+                    {% render_field field class="form-control" %}
+                    {% endif %}
+                   {% endif %} 
+       <!--            {% if field.help_text %}
+                  <small class="form-text text-white">{{ field.help_text }}</small>
+                  {% endif %} -->
+                </div>
+               </div>
+               {% endfor %}
+               <div style="width: 100%; text-align: center;">
+                  <button type="submit" class="btn btn-primary btn-xl js-scroll-trigger" style="min-width: 60%; margin: 10px;">Register!</button>
+               </div>
+            </form>
+      </div>
+   </div>
 </div>
 {% endblock %}
+

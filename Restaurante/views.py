@@ -22,6 +22,7 @@ from django.http import Http404
 from Restaurante.manageRequest import RequestsManager
 import json
 from django.contrib import messages
+#from Restaurante.models import Keywords
 
 def search_request(request):
     if request.is_ajax:
@@ -60,15 +61,15 @@ def login_view(request):
         if form.is_valid():
             user = authenticate(username=form.cleaned_data['username'],
                                 password=form.cleaned_data['password'])
-            if user and user.profile.email_confirmed is True:
-                login(request=request,
-                      user=user)
-                return redirect('home')
-            else:
-                if user.profile.email_confirmed is False:
-                    context['error_message'] = 'Your account has not been confirmed yet!'
+            if user:
+                if user.profile.email_confirmed is True:
+                    login(request=request,
+                          user=user)
+                    return redirect('home')
                 else:
-                    context['error_message'] = 'Wrong username or password!'
+                    context['error_message'] = 'Your account has not been confirmed yet!'
+            else:
+                context['error_message'] = 'Wrong username or password! Please try again!'
     context['form'] = form
     return render(request, 'login.html', context)
 
@@ -107,6 +108,7 @@ def signup(request):
             return redirect('account_activation_sent')           
     else:
         form = SignUpForm()
+    #keywords = Keyword.objects.all();
     return render(request, 'signup.html', {'form': form})
 
 

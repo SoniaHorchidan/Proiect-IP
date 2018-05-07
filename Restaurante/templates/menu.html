@@ -1,46 +1,45 @@
+
+
 <link rel="stylesheet" href="/static/css/menu.css">
-
-    <script>
-        function getSearchParams(){
-            var input =  document.getElementById("searchBox").value;
-            console.log(input);
-            location.href="/find/" + input;
-        }
-    </script>
-
-
-
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
-      <div class="container">
-       <!--  <a class="navbar-brand js-scroll-trigger" href="#page-top">Start Bootstrap</a> -->
-        <a class="nav-link js-scroll-trigger" href="{% url 'home' %}"> <img src="/static/images/logo.png" width="200px"></a>
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-              <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="{% url 'home' %}">Home</a>
+<script>
+   function getSearchParams(){
+       var input =  document.getElementById("searchBox").value;
+       console.log(input);
+       location.href="/find/" + input;
+   }
+</script>
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+   <div class="container">
+      <!--  <a class="navbar-brand js-scroll-trigger" href="#page-top">Start Bootstrap</a> -->
+      <a class="nav-link js-scroll-trigger" href="{% url 'home' %}"> <img src="/static/images/logo.png" width="200px"></a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+         <ul class="navbar-nav ml-auto">
+            <li>
+               <div class="input-group mb-3">
+                  <input type="text" class="form-control" id="searchBox" placeholder="Search for restaurants..." aria-label="Recipient's username" aria-describedby="basic-addon2">
+                  <div class="input-group-append">
+                     <button onclick="getSearchParams()" class="btn btn-outline-secondary" type="button"><i class="fas fa-search"></i></button>
+                  </div>
+               </div>
             </li>
-              <li class="nav-item">
-            <input type="text" placeholder="Find Restaurants" id="searchBox" class="form-control" style="width:75%; padding-bottom: 5px; margin-top: -10px; height: 90%;">
-            <button onclick="getSearchParams()" class="buton" style = "font-size: 0.5em;background-color: #555555;;border: none;color: white;padding: 5px 9px;text-align: center;text-decoration: none;display: inline-block;border-radius:4px;margin-top: -10px;">Find</button>
-</li>
-            <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="{% url 'search' %}">Discover restaurants</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link js-scroll-trigger" href="{% url 'profile' pk=user.profile.pk %}">User Profile</a>
+               <a class="nav-link js-scroll-trigger" href="{% url 'search' %}">Discover restaurants</a>
             </li>
             <li class="nav-item">
-                 <a class="nav-link js-scroll-trigger inactiveLink" href="#">Hello, {{ user.get_username }}</a>
+               <a class="nav-link js-scroll-trigger" href="{% url 'profile' pk=user.profile.pk %}">User Profile</a>
             </li>
-
-           <li class="nav-item">
-                <a class="nav-link js-scroll-trigger" href="{% url 'logout' %}">Logout</a>
+            <li class="nav-item">
+               <a class="nav-link js-scroll-trigger inactiveLink" href="#">Hello, {{ user.get_username }}</a>
             </li>
-
-          </ul>
-        </div>
+            <li class="nav-item">
+               <a class="nav-link js-scroll-trigger" href="{% url 'logout' %}">Logout</a>
+            </li>
+         </ul>
       </div>
-    </nav>
+   </div>
+</nav>
+
