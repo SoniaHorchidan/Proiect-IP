@@ -7,10 +7,10 @@
 
    <div class="container">
    	<h2>My List</h2>
-   	<ul class="list-group">
-   		<li class="list-group-item"> First item </li>
+   	<ul id='restaurantsList' class="list-group">
+<!--    		<li class="list-group-item"> First item </li>
    		<li class="list-group-item"> Second item </li>
-   		<li class="list-group-item"> Third item </li>
+   		<li class="list-group-item"> Third item </li> -->
    	</ul>
 
     <div id="map"></div>
@@ -103,6 +103,18 @@
 			service.nearbySearch(request, function(results, status) {
 				if (status == google.maps.places.PlacesServiceStatus.OK) {
 					var restaurants_names = []
+					for (var i = 0; i < results.length; i++){
+						restaurants_names.push(results[i]['name'])
+					}
+
+					var ul = document.getElementById("restaurantsList");
+					for (let i = 0; i < restaurants_names.length; i++){
+						let li = document.createElement("li");
+						li.appendChild(document.createTextNode(restaurants_names[i]));
+						li.classList.add("list-group-item");
+						ul.appendChild(li);
+					}
+
 					for (var i = 0; i < results.length; i++){
 						var myLatlng = results[i].geometry.location;
 
