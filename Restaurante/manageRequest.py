@@ -40,8 +40,8 @@ class RequestsManager:
 		return self.user_profile.trained
 
 	def __add_artificial_id(self):
-		user_profile.trained = True
-		user_profile.save()
+		self.user_profile.trained = True
+		self.user_profile.save()
 
 	def manage(self, list_of_restaurants):
 		# takes a list of restaurants(by name) around the user and the user ID(current user)
