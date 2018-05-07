@@ -1,47 +1,66 @@
+
+
 {% extends 'layout_no_menu.html' %} {% block title %}Login{% endblock %} {% block content %}
 <link rel="stylesheet" href="/static/css/login.css">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+   <div class="container">
+      <!--  <a class="navbar-brand js-scroll-trigger" href="#page-top">Start Bootstrap</a> -->
+      <img src="/static/images/logo.png" width="200px">
+   </div>
+</nav>
+<div class="vertical-center" >
+   <div style="width:100%;">
+      <div class="row">
+         <div class="col-md-12">
+            <form method="POST" enctype="multipart/formdata" class="form">
+               {% csrf_token %}
 
-    <div class="vertical-center" >
-  <div class="container">
-    <div class="row">
-      <div class="col-md-12">
-       
-    <div style="width:90%; margin: 0 auto; background-color: rgba(169,169,169, 0.5); padding: 50px;  border-radius: 25px;  box-shadow: 2px 2px 2px grey; ">
-        <div class="centered">
-            <h1>Login</h1>
+               <section class="bg-primary" id="about">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto text-center">
+            <h2 class="section-heading text-white">Welcome back!</h2>
+            <br>
+            <hr class="light my-4">
+             <div class="input-group mb-3">
+              <br>
+                              <div class="input-group-prepend">
+                                 <span class="input-group-text" id="basic-addon1">Username</span>
+                                 <i class="glyphicon glyphicon-user"></i>
+                              </div>
+                              <input type="text" class="form-control" aria-label="Username" name="username" aria-describedby="basic-addon1" id="id_username">
+                           </div>
+                           <br>
+                           <div class="input-group mb-3">
+                              <div class="input-group-prepend">
+                                 <span class="input-group-text" id="basic-addon1">Password</span>
+                              </div>
+                              <input type="password" class="form-control" id="id_password" name="password" required="">
+                           </div>
+                           <br> <br>
+                           <div style="width: 100%; text-align: center;">
+                            <button type="submit" class="btn btn-light btn-xl js-scroll-trigger"" style="min-width: 60%; margin: 10px;">Login!</button>
+                           </div>
+                             <div style="width: 100%; text-align: center; color: red; text-shadow: 2px 2px 4px #000000;">
+                              {% if form.errors %}
+                              <div role="alert" style="color: red;">
+                                 {{ form.errors }}
+                              </div>
+                              {% endif %}
+                              {{ error_message }}
+                           </div>
+          </div>
         </div>
-
-
-        <form method="POST" enctype="multipart/formdata" class="form">
-            {% csrf_token %}
-
-             <div class="form-group">
-                <label for="id_username">Username</label>
-                <input type="text" class="form-control" id="id_username" placeholder="Enter username..." name="username" required="">
-            </div>
-           <div class="form-group">
-               <label for="id_password">Password</label>
-               <input type="password" class="form-control" id="id_password" placeholder="Enter password..." name="password" required="">
-           </div>
-            <div style="width: 100%; text-align: center; color: red; text-shadow: 2px 2px 4px #000000;">
-              {% if form.errors %}
-                <div role="alert" style="color: red;">
-                    {{ form.errors }}
-                </div>
-              {% endif %}
-              {{ error_message }}
-            </div>
-
-           <div style="width: 100%; text-align: center;">
-            <button type="submit" class="btn btn-default" style="min-width: 60%; margin: 10px;">Login!</button>
-        </div>
-    </form>
-    </div>        
       </div>
-    </div>
-  </div>
+    </section>
+
+
+
+            </form>
+         </div>
+      </div>
+   </div>
 </div>
-
-
-
+</div>
 {% endblock %}
+
