@@ -4,18 +4,19 @@
 
 {% block content %}
 
-<h2>Restaurants</h2>
+<div style = "margin-top: 15%;">
 {% for restaurant in items %}
 <div>
-    <div>
-        <h3 style = "font-size: 3em;">{{restaurant.name}}</h3>
-        <div>
-          <p style = "font-size: 2em; color: black;">Website: {{ restaurant.website }}</p>
-        <div>
-            <h3>Rating: {{restaurant.rating}}</h3>
+    <div style = "background-color: white; border-radius: 25px;  box-shadow: 2px 2px 2px grey; margin: 0 auto; width:80%; min-height: 90%; padding: 25px; margin-bottom: 3%">
+        <h3 style = "color: #f05f40; text-align: center">{{restaurant.name}}</h3>
+         <hr class="my-4">
+        <div style = "text-align:  center;">
+          <p style = "color: black;"><b><i>Website:</i></b> {{ restaurant.website }}</p>
+        <div style = "text-align: center;">
+            <p style = "color: black;"><b><i>Rating:</i></b> {{restaurant.rating}}</p>
         </div>
         {% if request.user.is_authenticated %}
-        <a href="favorite/{{restaurant.pk}}">
+        <a class="btn btn-light btn-xl js-scroll-trigger" style=" background-color: #f05f40; color: white;" href="favorite/{{restaurant.pk}}">
           {% if restaurant not in request.user.profile.favourites.all %}
               <p>Add to favorites</p>
           {% else %}
@@ -26,4 +27,5 @@
     </div>
 </div>
 {% endfor %}
+</div>
 {% endblock %}
