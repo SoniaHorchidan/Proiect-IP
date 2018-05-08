@@ -15,6 +15,11 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'password1', 'password2', 'email', 'first_name', 'last_name', 'birth_date', 'preferences', )
+        help_texts = {
+            'preferences': 'Select one or more food preferences',
+            'last_name': 'Required.',
+            'first_name': 'Required'
+        }
 
     def custom_save(self, datas):
         user = User.objects.create_user(datas['username'],

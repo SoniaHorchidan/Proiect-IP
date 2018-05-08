@@ -22,7 +22,7 @@ from django.http import Http404
 from Restaurante.manageRequest import RequestsManager
 import json
 from django.contrib import messages
-#from Restaurante.models import Keywords
+from Restaurante.models import Keyword
 
 
 def favorites_around_request(request):
@@ -129,8 +129,8 @@ def signup(request):
             return redirect('account_activation_sent')           
     else:
         form = SignUpForm()
-    #keywords = Keyword.objects.all();
-    return render(request, 'signup.html', {'form': form})
+    keywords = Keyword.objects.all();
+    return render(request, 'signup.html', {'form': form, 'keywords': keywords})
 
 
 class UserProfileDetailView(DetailView):
