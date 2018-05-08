@@ -4,30 +4,42 @@
 {% block content %}
 <link rel="stylesheet" href="/static/css/profile.css">
 
+<div class="container" style="margin-top: 15%;">
+
 <div class="vertical-center" >
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-       <div style="width:90%; margin: 0 auto; background-color: rgba(169,169,169, 0.5); padding: 50px;  border-radius: 25px;  box-shadow: 2px 2px 2px grey;">
+       <div style="width:90%; margin: 0 auto; background-color: white; padding: 50px;  border-radius: 25px;  box-shadow: 2px 2px 2px grey;">
          <div>
-           <h2 style = "color: white; text-shadow: 2px 2px 4px #000000;">Hello, {{ userprofile.user.username }}!</h2>
         <div class="centered">
-          <h1 style = "color: white;">{{ userprofile.user.first_name }} {{ userprofile.user.last_name}}' profile</h1>
-        </div>
-  <h3 style = "color: white; text-shadow: 2px 2px 4px #000000;">Email: {{ userprofile.user.email }}</h3>
-  <h3 style = "color: white; text-shadow: 2px 2px 4px #000000;">Preferences:</h3>
+          <h2 style = "color: #f05f40;">{{ userprofile.user.first_name }} {{ userprofile.user.last_name}}' profile</h2>
+  <p style = "color: black;"> Username: {{ userprofile.user.username }} </p>
+  <p style = "color: black;">Email: {{ userprofile.user.email }}</p>
+  <p style = "color: black;"> Birth Date: {{ userprofile.birth_date }} </p>
+  </div>
+  <div class = "left">
+  <p style = "color: black; font-size: 1.25em">Food Preferences:</p>
+  <ul>
   {% for keyword in userprofile.preferences.all %}
-    <p style = "color: white; text-shadow: 2px 2px 4px #000000;">{{ keyword.name }}</p>
+    <li><p style = "color: black;">{{ keyword.name }}</p></li>
   {% endfor %}
-  <h3 style = "color: white; text-shadow: 2px 2px 4px #000000;">Favourites:</h3>
+  </ul>
+  </div>
+  <div class = "right">
+  <p style = "color: black; font-size: 1.25em">Favourite restaurants:</p>
+  <ul>
   {% for restaurant in userprofile.favourites.all %}
-      <p style = "color: white; text-shadow: 2px 2px 4px #000000;">{{ restaurant.name }}</p>
+      <li><p style = "color: black;">{{ restaurant.name }}</p></li>
   {% endfor %}
+  </ul>
+  </div>
   <a href = "/profile/{{ user.profile.pk }}/update">
   	<div style="width: 25%; text-align: left;">
-            <button class="btn btn-default" style="min-width: 60%; margin: 10px;">Edit profile</button>
+            <button class="btn btn-light btn-xl js-scroll-trigger" style="min-width: 60%; margin: 10px; background-color: #f05f40; color: white; ">Edit profile</button>
         </div>
   </a>
+</div>
 </div>
 </div>
 </div>

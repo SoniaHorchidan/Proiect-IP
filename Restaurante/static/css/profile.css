@@ -1,5 +1,5 @@
 body {
-	background: url(/static/images/background1.jpg) no-repeat center center fixed;
+	background: url(/static/images/header.jpg) no-repeat center center fixed;
 	-webkit-background-size: cover;
 	-moz-background-size: cover;
 	-o-background-size: cover;
@@ -12,13 +12,19 @@ body {
 	text-align: center;
 }
 
+.right {
+	text-align: right;
+	float: right;
+}
+
+.left {
+	text-align: left;
+	float: left;
+}
+
 
 h1, label{
 	color: white;
-}
-
-h1{
-	text-shadow: 2px 2px 4px #000000;
 }
 
 .vertical-center {
