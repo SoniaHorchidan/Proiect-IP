@@ -11,18 +11,28 @@
         <h3 style = "color: #f05f40; text-align: center">{{restaurant.name}}</h3>
          <hr class="my-4">
         <div style = "text-align:  center;">
-          <p style = "color: black;"><b><i>Website:</i></b> {{ restaurant.website }}</p>
+          <p style = "color: black;"><b><i>Website:</i></b> <a href = "{{ restaurant.website }}" target = "_blank">{{ restaurant.website }}</a> </p>
         <div style = "text-align: center;">
             <p style = "color: black;"><b><i>Rating:</i></b> {{restaurant.rating}}</p>
         </div>
+        <div style = "text-align: : center;">
+          <p style = "color: black; display: inline-block;"><b><i>Keywords:</i></b></p>
+            {% for keyword in restaurant.keywords.all %}
+              {% if forloop.last %}
+                <p style = "display: inline-block; color: #f05f40;"><i>{{ keyword.name }} </i></p>
+              {% else %}
+             <p style = "display: inline-block; color: #f05f40;"><i>{{ keyword.name }}, </i></p>
+              {% endif %}
+            {% endfor %}
+        </div>
         {% if request.user.is_authenticated %}
-        <button class="btn btn-primary btn-xl js-scroll-trigger" href="favorite/{{restaurant.pk}}">
+        <a class="btn btn-light btn-xl js-scroll-trigger" style=" background-color: #f05f40; color: white;" href="favorite/{{restaurant.pk}}">
           {% if restaurant not in request.user.profile.favourites.all %}
               Add to favorites
           {% else %}
               Remove from favorites
           {% endif %}
-        </button>
+        </a>
         {% endif %}
     </div>
 </div>
