@@ -62,8 +62,8 @@
 					markers[i].setMap(null);
 				}
 
-   		let colors = ['#f05f40', ' #F16F53', '#f37e66', '#f48f79', '#f69f8c'];
-   		let hex_colors = ['f05f40', ' F16F53', 'f37e66', 'f48f79', 'f69f8c'];
+   				let colors = ['#f05f40', ' #F16F53', '#f37e66', '#f48f79', '#f69f8c'];
+   				let hex_colors = ['f05f40', ' F16F53', 'f37e66', 'f48f79', 'f69f8c'];
 
 				for (var i = 0; i < result.length; i++){
 					var lat_lng = result[i].split('T')
@@ -127,6 +127,7 @@
 								markers[j].setMap(null);
 							}else{
 								markers[j].setMap(map);
+								window.scrollTo(0, 0);
 							}
 						}
 					}
@@ -255,6 +256,7 @@
 									markers[j].setMap(null);
 								}else{
 									markers[j].setMap(map);
+									window.scrollTo(0, 0);
 								}
 							}
 						}
@@ -294,7 +296,29 @@
 								let li = document.createElement("li");
 								li.appendChild(document.createTextNode(result[i]));
 								li.classList.add("list-group-item");
+								
+								let a = document.createElement("a");
+								a.classList.add("btn");
+								a.classList.add("btn-primary");
+								a.classList.add("btn-xl");
+								a.classList.add("js-scroll-trigger");
+								a.style.float="right";
+								a.innerText = "Pinpoint";
+								
+								a.onclick = function(){
+									console.log(i);
+									for (let j = 0; j < markers.length;j++){
+										if (j != i){
+											markers[j].setMap(null);
+										}else{
+											markers[j].setMap(map);
+											window.scrollTo(0, 0);
+										}
+									}
+								}
+								li.appendChild(a);
 								ul.appendChild(li);
+
 							}
 
 							if (result.length == 0){
