@@ -15,5 +15,6 @@ urlpatterns = [
     path('search_request', views.search_request),
     path('favorites_around', views.favorites_around_request),
     path('find/<input>/', views.SearchPageListView.as_view(), name = 'find'),
-    path('find/<input>/favorite/<int:pk>/', views.AddedFavoriteView.as_view(), name = 'favorite')
+    path('find/<input>/favorite/<int:pk>/', views.AddedFavoriteView.as_view(), name = 'favorite'),
+    re_path(r'^.*', views.redirect_to_index, name='red')
 ]

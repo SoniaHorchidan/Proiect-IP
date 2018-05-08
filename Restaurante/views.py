@@ -11,18 +11,17 @@ from django.contrib.auth.models import User
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 from Restaurante.tokens import account_activation_token
-
-
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.template.loader import render_to_string
-
 from django.http import Http404
 from Restaurante.manageRequest import RequestsManager
 import json
 from django.contrib import messages
 from Restaurante.models import Keyword
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 def favorites_around_request(request):
@@ -58,13 +57,13 @@ def search_request(request):
 
         return HttpResponse(json.dumps(result))
 
-
 def index(request):
     if is_authenticated(request.user) == True:
         return render( request, 'home.html')
     else:
         return render( request, 'index.html')
 
+@login_required
 def home(request):
     return render( request, 'home.html')
 
@@ -100,6 +99,7 @@ def logout_view(request):
         logout(request)
         return redirect('index')
 
+@login_required
 def search_view(request):
 	context = {}
 	return render(request, 'search.html', context)
@@ -133,12 +133,12 @@ def signup(request):
     return render(request, 'signup.html', {'form': form, 'keywords': keywords})
 
 
-class UserProfileDetailView(DetailView):
+class UserProfileDetailView(LoginRequiredMixin, DetailView):
     template_name = 'profile.html'
     model = Profile
     context_object_name = 'userprofile'
 
-class SearchPageListView(ListView):
+class SearchPageListView(LoginRequiredMixin, ListView):
     template_name = 'find.html'
     model = Restaurant
     context_object_name = 'items'
@@ -147,7 +147,7 @@ class SearchPageListView(ListView):
         queryset = Restaurant.objects.filter(name__contains=searchInput).all()
         return queryset
 
-class AddedFavoriteView(View):
+class AddedFavoriteView(LoginRequiredMixin, View):
      def get(self, request, *args, **kwargs):
         obj = Restaurant.objects.get(pk=kwargs['pk'])
         if obj not in request.user.profile.favourites.all():
@@ -175,7 +175,7 @@ def activate(request, uidb64, token):
     else:
         return render(request, 'account_activation_invalid.html')
 
-
+@login_required
 def update_profile(request, pk):
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)
@@ -201,3 +201,6 @@ def update_profile(request, pk):
 
 def account_activation_sent(request):
     return render(request, 'account_activation_sent.html')
+
+def redirect_to_index(request):
+    return redirect('index')

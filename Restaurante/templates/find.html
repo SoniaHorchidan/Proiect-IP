@@ -16,13 +16,13 @@
             <p style = "color: black;"><b><i>Rating:</i></b> {{restaurant.rating}}</p>
         </div>
         {% if request.user.is_authenticated %}
-        <a class="btn btn-light btn-xl js-scroll-trigger" style=" background-color: #f05f40; color: white;" href="favorite/{{restaurant.pk}}">
+        <button class="btn btn-primary btn-xl js-scroll-trigger" href="favorite/{{restaurant.pk}}">
           {% if restaurant not in request.user.profile.favourites.all %}
-              <p>Add to favorites</p>
+              Add to favorites
           {% else %}
-              <p>Remove from favorites</p>
+              Remove from favorites
           {% endif %}
-        </a>
+        </button>
         {% endif %}
     </div>
 </div>
