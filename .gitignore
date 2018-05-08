@@ -1,1 +1,4 @@
 ./db.sqlite3
+./Restaurante/__pycache__
+./Restaurante/migrations/__pycache__
+

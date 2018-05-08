@@ -1,5 +1,37 @@
-{% extends 'layout_no_menu.html' %}
 
+
+{% extends 'layout_no_menu.html' %}
 {% block content %}
-  <p>The confirmation link was invalid, possibly because it has already been used.</p>
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.12/css/all.css" integrity="sha384-G0fIWCsCzJIMAVNQPfjH08cyYaUtMwjJwqiRKxxE/rx96Uroj1BtIQ6MLJuheaO9" crossorigin="anonymous">
+<link rel="stylesheet" href="/static/css/login.css">
+<nav class="navbar navbar-expand-lg navbar-light fixed-top" id="mainNav">
+   <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+         <a class="nav-link js-scroll-trigger" href="{% url 'index' %}"> <i class="fas fa-long-arrow-alt-left"></i> Go back to first page</a>
+      </li>
+   </ul>
+</nav>
+<div class="vertical-center" >
+   <div style="width:100%;">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="container">
+               <div class="row">
+                  <div class="col-lg-10 mx-auto text-center">
+                     <img src="/static/images/logo.png" width="350px" style="margin: 25px;">
+                     <br>
+                     <hr class="light my-4">
+                     <div class="col-lg-8 mx-auto text-center">
+                        <h2 class="section-heading text-white" style="color:white; font-size: 36px; font-weight: bold;">Oops!</h2>
+                        <br>
+                        <p class="mb-4" style="color:white; font-size: 20px;">The confirmation link was invalid, possibly because it has already been used.</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
 {% endblock %}
+
