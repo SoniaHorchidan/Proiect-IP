@@ -13,6 +13,7 @@ urlpatterns = [
 	path('account_activation_sent/', views.account_activation_sent, name='account_activation_sent'),
     path('activate/<uidb64>/<token>/', views.activate, name='activate'),
     path('search_request', views.search_request),
+    path('favorites_around', views.favorites_around_request),
     path('find/<input>/', views.SearchPageListView.as_view(), name = 'find'),
     path('find/<input>/favorite/<int:pk>/', views.AddedFavoriteView.as_view(), name = 'favorite')
 ]

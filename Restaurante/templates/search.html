@@ -5,13 +5,19 @@
 {% block content %}
    <link rel="stylesheet" href="/static/css/search.css">
 
-   <div class="container" style="margin-top: 20%;">
-   	<button id="recommendButton" onclick="onClickRecommend()">Recommend</button>
-   	<button id="showMap" onclick="onClickSeeOnMap()">Show Map</button>
-   	<ul id='restaurantsList' class="list-group" style="width:fit-content; position: absolute;"></ul>
+    <div class="container" style="margin-top: 20%;">
+	   	<button id="recommendButton" onclick="onClickRecommend()">Recommend</button>
+	   	<button id="showMap" onclick="onClickSeeOnMap()">Show Map</button>
+	   	<ul id='restaurantsList' class="list-group" style="width:fit-content;"></ul>
 
-    <div id="map" style="display: none; width: 40%; position: absolute"></div>
+	    <div id="map" style="display: none; width: 40%; position: absolute"></div>
+		
+		<h2 id="favoritesAroundHeader" style="color: white">Favorites Around</h2>
+		<ul id="favoritesList" class="list-group" style="width:fit-content;">
+
+		</ul>
 	</div>
+
 	{% endblock %}	
 	{% block scripts %}
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -87,11 +93,6 @@
 					}
 					ul.appendChild(li);
 				}
-
-			 	//var marker = new google.maps.Marker({
-				//	map: map,
-				//	position: myLatlng
-				//});	
 
 		 	},
 		 	error: function(XMLHttpRequest, textStatus, errorThrown) { 
@@ -216,6 +217,31 @@
 						});
 						markers.push(marker);
 					}
+					$.ajax({
+						type: "GET",
+						url: "favorites_around",
+						data: {'names': restaurants_names},
+						dataType: "json",
+						success: function(result){
+
+					 		let ul = document.getElementById("favoritesList");
+
+					 		for (let i = 0; i < result.length; i++){
+								let li = document.createElement("li");
+								li.appendChild(document.createTextNode(result[i]));
+								li.classList.add("list-group-item");
+								ul.appendChild(li);
+							}
+
+							if (result.length == 0){
+								document.getElementById("favoritesAroundHeader").display = "none";
+							}
+
+					 	},
+					 	error: function(XMLHttpRequest, textStatus, errorThrown) { 
+				        	alert("Status: " + textStatus); alert("Error: " + errorThrown); 
+				    	} 
+				 	});
 				}
 			});
 		}

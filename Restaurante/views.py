@@ -24,6 +24,27 @@ import json
 from django.contrib import messages
 #from Restaurante.models import Keywords
 
+
+def favorites_around_request(request):
+    if request.is_ajax:
+        if len(request.GET) == 0:
+            raise Http404
+
+        res = request.GET.getlist('names[]')
+        current_user = request.user.id
+
+        profile = User.objects.filter(id__in=[current_user])[0]
+        profile = Profile.objects.filter(user__in=[profile])[0]
+
+        result = profile.favourites.all()
+        result = [el.name for el in result]
+        result = [el for el in result if el in res]
+        
+        print(result)
+
+        return HttpResponse(json.dumps(result))
+
+
 def search_request(request):
     if request.is_ajax:
         if len(request.GET) == 0:
