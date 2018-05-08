@@ -1,46 +1,130 @@
-{% extends 'layout_no_menu.html' %} 
+{% extends 'layout.html' %} 
 {% block title %}Edit Profile{% endblock %} 
 {% block content %}
+{% load widget_tweaks %}
 <link rel="stylesheet" href="/static/css/edit_profile.css">
- <div class="vertical-center" >
+ <div class="vertical-center"  style = "margin-top: 5%;">
   <div class="container">
     <div class="row">
       <div class="col-md-12">
- <div style="width:90%; margin: 0 auto; background-color: rgba(169,169,169, 0.5); padding: 50px;  border-radius: 25px;  box-shadow: 2px 2px 2px grey; ">
         <div class="centered">
             <h1>Edit Profile</h1>
+            <br>
         </div>
 
 <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
-  {% for field in user_form %}
-       <div class = "form-group">
-        {{ field.label_tag }}<br>
-         <div class = "form-control" style = "width: 100%; height: 75%">{{ field }}</div>
-        </div>
-         {% for error in field.errors %}
-         <div style="width: 100%; text-align: center; color: red; text-shadow: 2px 2px 4px #000000;">
-          <p style="color: red">{{ error }}</p>
+
+  {% for hidden_field in user_form.hidden_fields %}
+  {{ hidden_field }}
+  {% endfor %}
+  {% if user_form.non_field_errors %}
+  <div class="alert alert-danger" role="alert">
+      {% for error in user_form.non_field_errors %}
+      {{ error }}
+      {% endfor %}
+  </div>
+  {% endif %}
+
+  {% for hidden_field in profile_form.hidden_fields %}
+  {{ hidden_field }}
+  {% endfor %}
+  {% if profile_form.non_field_errors %}
+  <div class="alert alert-danger" role="alert">
+      {% for error in profile_form.non_field_errors %}
+      {{ error }}
+      {% endfor %}
+  </div>
+  {% endif %}
+
+  {% for field in user_form.visible_fields %}
+  <div class="form-group">
+      <div class="row" style="margin:20px;">
+          <div class="col-md-3">
+              {{ field.label_tag }}
           </div>
-        {% endfor %}
-    {% endfor %}
+          <div class="col-md-9">
+              {% if fiels.label_tag == "Preferences:" %}
+                  {% render_field field class="custom-control custom-checkbox" %}
+              {% else %}
+                  {% if user_form.is_bound %}
+                  {% if field.errors %}
+                  {% render_field field class="form-control is-invalid" %}
+          </div>
+          {% for error in field.errors %}
+          <div class="invalid-feedback">
+              {{ error }}
+          </div>
+          {% endfor %}
+                    {% else %}
+                    {% render_field field class="form-control is-valid" %}
+                    {% endif %}
+                    {% else %}
+                    {% render_field field class="form-control" %}
+                    {% endif %}
+                   {% endif %} 
+                   {% if field.help_text %}
+                  {% endif %} 
 
-    {% for field in profile_form %}
-      <p>
-        {{ field.label_tag }}<br>
-        {{ field }}
-        {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
-        {% endfor %}
-      </p>
-    {% endfor %}
+                  {% for error in field.errors %}
+               
+                   <div style="width: 100%; text-align: center; color: red; text-shadow: 2px 2px 4px #000000;">
+                     <p style="color: red">{{ error }}</p>
+                   </div>
+                  {% endfor %}
+                
+                </div>
+               </div>
+               {% endfor %}
 
-    <div style="width: 100%; text-align: center;">
-            <button type="submit" class="btn btn-default" style="min-width: 60%; margin: 10px;">Edit!</button>
-        </div>
+                {% for field in profile_form.visible_fields %}
+  <div class="form-group">
+      <div class="row" style="margin:20px;">
+          <div class="col-md-3">
+              {{ field.label_tag }}
+          </div>
+          <div class="col-md-9">
+              {% if fiels.label_tag == "Preferences:" %}
+                  {% render_field field class="custom-control custom-checkbox" %}
+              {% else %}
+                  {% if profile_form.is_bound %}
+                  {% if field.errors %}
+                  {% render_field field class="form-control is-invalid" %}
+          </div>
+          {% for error in field.errors %}
+          <div class="invalid-feedback">
+              {{ error }}
+          </div>
+          {% endfor %}
+                    {% else %}
+                    {% render_field field class="form-control is-valid" %}
+                    {% endif %}
+                    {% else %}
+                    {% render_field field class="form-control" %}
+                    {% endif %}
+                   {% endif %} 
+                   {% if field.help_text %}
+                  <small class="form-text text-white">{{ field.help_text|safe }}</small>
+                  {% endif %} 
+
+                  {% for error in field.errors %}
+               
+                   <div style="width: 100%; text-align: center; color: red; text-shadow: 2px 2px 4px #000000;">
+                     <p style="color: red">{{ error }}</p>
+                   </div>
+                  {% endfor %}
+                
+                </div>
+               </div>
+               {% endfor %}
+               <div style="width: 100%; text-align: center;">
+                  <button type="submit" class="btn btn-primary btn-xl js-scroll-trigger" style="min-width: 60%; margin: 10px;">Edit!</button>
+               </div>
+
 </form>
- </div>
+
     </div>
   </div>
 </div>
+
 {% endblock %}
