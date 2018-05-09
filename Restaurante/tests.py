@@ -39,3 +39,33 @@ class LoginTest(TestCase):
 
 		response = self.client.login(username='testuser5', password='secret')
 		self.assertTrue(response)
+
+class RegisterTest(TestCase):
+	def setUp(self):
+		k = Keyword(name='Burger')
+		k.save(force_insert=True)
+		k = Keyword(name='Salad')
+		k.save(force_insert=True)
+		k = Keyword(name='Pizza')
+		k.save(force_insert=True)
+
+		self.query = Keyword.objects.all()
+		
+		self.data = {
+				'username': 'testest',
+				'password1': 'parola12345',
+				'password2': 'parola12345',
+				'email': 'test@gmail.com',
+				'first_name': 'Test',
+				'last_name': 'Test',
+				'birth_date': '02/02/1990',
+				'preferences': self.query
+		}
+
+	def test_registration_view_get(self):
+		response = self.client.get(reverse('signup'))
+		self.assertEqual(response.status_code, 200)
+
+	def test_registration(self):
+		form = SignUpForm(data=self.data)
+		self.assertTrue(form.is_valid(), 'Form is not valid')
