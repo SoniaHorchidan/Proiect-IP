@@ -1,0 +1,92 @@
+{% extends 'layout.html' %}
+
+{% block title %}Find{% endblock %}
+
+{% block content %}
+
+ <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAe06JHnX5ODl9vT0MrKoPsb4gCRu06Tug&callback=initMap">
+    </script>
+
+
+<script>
+
+  var geocoder;
+
+  window.onload = function() {
+    initialize();
+    var coord = document.getElementsByClassName("restaurant_location");
+    for(var i=0; i < coord.length; i++) {
+       var latlong = coord[i].innerHTML.split("T");
+       codeLatLng( latlong[0], latlong[1], coord[i]);
+    }
+};
+
+function initialize() {
+  geocoder = new google.maps.Geocoder();
+}
+
+function codeLatLng(lat, lng, elem) {
+  var latlng = new google.maps.LatLng(lat, lng);
+  geocoder.geocode({
+    'latLng': latlng
+  }, function (results, status) {
+    if (status === google.maps.GeocoderStatus.OK) {
+      if (results[1]) {
+        elem.style.display = 'inline-block';
+        elem.innerHTML = results[1]['formatted_address'];
+        console.log(results[1]['formatted_address']);
+      } else {
+        alert('No results found');
+      }
+    } else {
+      alert('Geocoder failed due to: ' + status);
+    }
+  });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+  </script>
+
+<div style = "margin-top: 15%;">
+{% for restaurant in items %}
+<div>
+    <div style = "background-color: white; border-radius: 25px;  box-shadow: 2px 2px 2px grey; margin: 0 auto; width:80%; min-height: 90%; padding: 25px; margin-bottom: 3%">
+        <h3 style = "color: #f05f40; text-align: center">{{restaurant.name}}</h3>
+         <hr class="my-4">
+        <div style = "text-align:  center;">
+          <p style = "color: black;"><b><i>Website:</i></b> <a href = "{{ restaurant.website }}" target = "_blank">{{ restaurant.website }}</a> </p>
+
+        <div style = "text-align: center; display: inline; margin-bottom: 2px;">
+           <div style = "color: black;"><b><i>Address:</i></b> <div class="restaurant_location" style="display: none;"> {{restaurant.location}}</div>
+         </div>
+       </div>
+        <div style = "text-align: center; margin-top: 10px;">
+            <p style = "color: black;"><b><i>Rating:</i></b> {{restaurant.rating}}</p>
+        </div>
+
+
+        <div style = "text-align: : center;">
+          <p style = "color: black; display: inline-block;"><b><i>Keywords:</i></b></p>
+            {% for keyword in restaurant.keywords.all %}
+              {% if forloop.last %}
+                <p style = "display: inline-block; color: #f05f40;"><i>{{ keyword.name }} </i></p>
+              {% else %}
+             <p style = "display: inline-block; color: #f05f40;"><i>{{ keyword.name }}, </i></p>
+              {% endif %}
+            {% endfor %}
+        </div>
+        {% if request.user.is_authenticated %}
+        <a class="btn btn-light btn-xl js-scroll-trigger" style=" background-color: #f05f40; color: white;" href="favorite/{{restaurant.pk}}">
+          {% if restaurant not in request.user.profile.favourites.all %}
+              Add to favorites
+          {% else %}
+              Remove from favorites
+          {% endif %}
+        </a>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+</div>
+{% endblock %}

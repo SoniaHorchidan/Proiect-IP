@@ -147,6 +147,14 @@ class SearchPageListView(LoginRequiredMixin, ListView):
         queryset = Restaurant.objects.filter(name__contains=searchInput).all()
         return queryset
 
+class SearchPageListView1(LoginRequiredMixin, ListView):
+    template_name = 'find1.html'
+    model = Restaurant
+    context_object_name = 'items'
+    def get_queryset(self):
+        queryset = Restaurant.objects.all()
+        return queryset
+
 class AddedFavoriteView(LoginRequiredMixin, View):
      def get(self, request, *args, **kwargs):
         obj = Restaurant.objects.get(pk=kwargs['pk'])
@@ -184,6 +192,8 @@ def update_profile(request, pk):
             user_form.save()
             profile = Profile.objects.get(pk=pk)
             profile.trained = False
+            if profile_form.cleaned_data.get('preferences').count() > 5:
+                return render(request, 'edit_profile.html', {'form': profile_form, 'error_message': 'You cannot have more than 5 preferences at a time!:('})
             profile_form.save()
             messages.success(request, 'Your profile was successfully updated!')
             #return render(request, 'profile.html', {'pk': pk})

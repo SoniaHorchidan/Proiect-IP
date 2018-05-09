@@ -64,6 +64,7 @@
                     {% endif %}
                    {% endif %} 
                    {% if field.help_text %}
+                   <small class="form-text text-white">{{ field.help_text|safe }}</small>
                   {% endif %} 
 
                   {% for error in field.errors %}
