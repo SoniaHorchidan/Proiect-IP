@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.test import Client
-from Restaurante.models import Profile, Keyword
+from Restaurante.models import Profile, Keyword, Restaurant
+from Restaurante.views import SearchPageListView
 from django.contrib.auth.models import User
 from Restaurante.forms import SignUpForm
 from django.urls import reverse
@@ -101,6 +102,28 @@ class DiscoverTest(TestCase):
 		response = self.client.get(reverse('search'))
 		self.assertEqual(response.status_code, 200)
 
-	def test_recomend(self):
-		#NINEL BAGA COD AICI
-		pass
+
+class SearchTests(TestCase):
+
+	def setUp(self):
+		k = Keyword(name='Burger')
+		k.save(force_insert=True)
+		k = Keyword(name='Salad')
+		k.save(force_insert=True)
+		k = Keyword(name='Pizza')
+		k.save(force_insert=True)
+		self.query = Keyword.objects.all()
+		r = Restaurant(name='La Mama', rating='4.2', location='44.434787T26.099400', website='http://lamama.ro')
+		r.save()
+		user = User.objects.create_user(**{'username': 'testuser5',
+								  'password': 'secret', 'first_name': 'test', 'last_name': 'test',
+								   'email': 'test@test.com'})
+		user.profile.birth_date = '1990-01-01'
+		user.profile.preferences.set(self.query)
+		user.profile.email_confirmed = True
+		user.save()
+		self.client.login(username='testuser5', password='secret')
+
+	def test_search(self):
+		response = self.client.get('/find/mama')
+		self.assertEqual(response.status_code, 301)
