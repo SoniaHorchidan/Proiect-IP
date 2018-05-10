@@ -214,3 +214,7 @@ def account_activation_sent(request):
 
 def redirect_to_index(request):
     return redirect('index')
+
+def loaderIO(request):
+	context={}
+	return render(request, 'loaderIOFile.html', context)

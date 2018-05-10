@@ -17,5 +17,6 @@ urlpatterns = [
     path('find/<input>/', views.SearchPageListView.as_view(), name = 'find'),
     path('find/', views.SearchPageListView1.as_view(), name = 'find1'),
     path('find/<input>/favorite/<int:pk>/', views.AddedFavoriteView.as_view(), name = 'favorite'),
+    path('loaderio-cb7c43f7e15e5b20c6a4eb75845b1cdd/', views.loaderIO, name='loaderIO'),
     #re_path(r'^.*', views.redirect_to_index, name='red')
 ]
